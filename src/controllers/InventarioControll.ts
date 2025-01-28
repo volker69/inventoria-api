@@ -1,0 +1,15 @@
+import { Request, Response } from "express";
+import { InventarioServices } from "../services/InventarioServices";
+
+export const InventarioControll = {
+    
+    async obtnerInventario(req: Request, res: Response){
+        try {        
+            const inventario = await InventarioServices.getInventario();
+            res.status(200).json(inventario)
+        } catch (error) {
+            console.error("Error en obtnerInventario",error);
+            res.status(500).json({error:"Error al obtener los usarios"})
+        }
+    }
+}
