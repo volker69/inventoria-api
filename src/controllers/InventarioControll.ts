@@ -11,5 +11,14 @@ export const InventarioControll = {
             console.error("Error en obtnerInventario",error);
             res.status(500).json({error:"Error al obtener los usarios"})
         }
-    }
+    },
+    async obtnerInventarioDetalle(req: Request, res: Response){
+        try {        
+            const inventario = await InventarioServices.obtenerInventarioConDetalles();        
+            res.status(200).json(inventario)
+        } catch (error) {
+            console.error("Error en obtnerInventarioDetalle",error);
+            res.status(500).json({error:"Error al obtener los usarios"})
+        }
+    },
 }
