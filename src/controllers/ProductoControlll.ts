@@ -62,11 +62,21 @@ export const ProductoControll = {
         try {
             let {id} = req.params;
             let producto_id = parseInt(id)
-            const producto = await ProductoServices.delateProducto(producto_id);
+            const producto = await ProductoServices.getProductoById(producto_id);
             res.status(200).json(producto);
         } catch (error) {
               console.error("ERROR en obtenerProductXid==>",error);
               res.status(500).json({error:"Error al buscar productos por ID"});
+        }
+    },
+
+    async obtenerProductoDetalle(req:Request,res:Response){
+        try {
+            const producto = await ProductoServices.getProductoDetalle();
+            res.status(200).json(producto);
+        } catch (error) {
+            console.error("ERROR en obtenerProductoDetalle==>",error);
+            res.status(500).json({error:"Error al buscar productos con Detallle"});
         }
     }
 }

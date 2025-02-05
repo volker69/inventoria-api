@@ -22,19 +22,19 @@ export const InventarioServices ={
         try {
             const inventario = await prisma.inventario.findMany({
                 select:{
-                    stock:true,
                     producto_talla:{
                         select:{
-                            talla:true,
-                            precio:true,
                             producto:{
                                 select:{
                                     nombre:true
                                 }
-                            }
+                            },
+                            talla:true,
+                            precio:true
                         }
-
+                        
                     },
+                    stock:true,
                     tienda:{
                         select:{
                             nombre:true

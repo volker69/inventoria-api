@@ -3,7 +3,6 @@ import { Iproducto } from "../interface/interface.producto";
 const prisma = new PrismaClient();
 
 export const ProductoServices = {
-  
     async getProducto(){
         try {
             const producto = await prisma.producto.findMany();
@@ -13,6 +12,31 @@ export const ProductoServices = {
             console.error("Error en getProducto",error);
         }finally{
             await prisma.$disconnect();
+        }
+    },
+
+
+    async getProductoDetalle(){
+        try {
+            const producto = await prisma.producto.findMany({
+                select:{
+                    nombre:true,
+                    precio:true,
+                    fecha_ingreso:true,
+                    tallas:{
+                        select:{
+                            talla:true,
+                            precio:true
+                        }
+                    }
+                }
+            })
+            console.log("getProductoDetalle==>",producto);
+            return producto
+        } catch (error) {
+            console.error("Error en getProductoDetalle==>",error);
+        }finally{
+            await prisma.$disconnect
         }
     },
 
