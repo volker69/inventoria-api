@@ -3,4 +3,6 @@ export interface IInventario {
     tienda_id: number;
     producto_variante_id: number;
     stock: number;
+    cdc_create:string,
+    cdc_update:string
 }

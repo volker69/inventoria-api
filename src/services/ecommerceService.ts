@@ -30,6 +30,8 @@ export const EcommerceService = {
                     descripcion: product.product.meta_description,
                     url_img: product.product.images[0].url,
                     variants: product.product.variants,
+                    cdc_create:product.product.created_at,
+                    cdc_update:product.product.updated_at
                 }
             });
 
@@ -88,7 +90,10 @@ export const EcommerceService = {
                     let dataInventario: IInventario = {
                         tienda_id: 1,
                         producto_variante_id: producto_variante_id,
-                        stock: variant.stock
+                        stock: variant.stock,
+                        cdc_create:element.cdc_create,
+                        cdc_update:element.cdc_update
+
                     }
                     const resultInventario: any = await postgres_db('inventario')
                         .insert(dataInventario, 'inventario_id');
