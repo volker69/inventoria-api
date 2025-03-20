@@ -1,8 +1,8 @@
 export interface IProductResponseEc {
-    product: IProductEc;
+    product: IProductEc ; 
   }
   
-  interface IProductEc {
+  export interface IProductEc {
     id: number;
     name: string;
     page_title: string;
@@ -86,3 +86,8 @@ export interface IProductResponseEc {
   interface Field {
     // Aquí se pueden definir propiedades específicas si existen campos personalizados
   }
+
+  export interface errorResponse {
+  
+    message: string;
+  } 

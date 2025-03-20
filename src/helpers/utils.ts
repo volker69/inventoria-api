@@ -7,4 +7,53 @@ export const  obtenerFechaActual= ()=> {
     return `${anio}-${mes}-${dia}`;
 }
 
-console.log(obtenerFechaActual()); // Ejemplo de salida: 2025-01-29
+const spinnerFrames = ['|', '/', '-', '\\'];
+let currentFrame = 0;
+let spinnerInterval: NodeJS.Timeout | undefined;
+
+// 2. Función para iniciar la animación
+export const startSpinner= ()=> {
+  // Evitar iniciar múltiples intervalos si ya hay uno corriendo
+  if (spinnerInterval) return;
+  
+  spinnerInterval = setInterval(() => {
+    process.stdout.write(`\rConsultando BD... ${spinnerFrames[currentFrame]}`);
+    currentFrame = (currentFrame + 1) % spinnerFrames.length;
+  }, 100);
+}
+
+// 3. Función para detener la animación
+export const stopSpinner=()=> {
+  if (spinnerInterval) {
+    clearInterval(spinnerInterval);
+    spinnerInterval = undefined;
+  }
+  // Forzamos un salto de línea para "separar" el cursor del spinner
+  process.stdout.write('\n');
+}
+
+export const generateCode = (name: string): string => {
+  // Normaliza el nombre: quita espacios y lo pasa a mayúsculas
+  const normalized = name.replace(/\s+/g, '').toUpperCase();
+
+  // Función de hash simple
+  const simpleHash = (str: string): string => {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+          hash = (hash << 5) - hash + str.charCodeAt(i);
+          hash |= 0; // Convertir a entero de 32 bits
+      }
+      return Math.abs(hash).toString(36); // Convertir a base 36
+  };
+
+  // Genera una parte aleatoria
+  const randomString = (length: number): string =>
+      Array.from({ length }, () => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.charAt(Math.floor(Math.random() * 36))).join('');
+
+  // Construcción del código
+  const hashPart = simpleHash(normalized).slice(0, 10); // 10 caracteres del hash
+  const randomPart = randomString(10); // 10 caracteres aleatorios
+  const namePart = normalized.slice(0, 10).padEnd(10, 'X'); // 10 caracteres del nombre
+
+  return (namePart + hashPart + randomPart).slice(0, 30); // Asegura 30 caracteres exactos
+};
