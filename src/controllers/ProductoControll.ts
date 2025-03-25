@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { ProductoService } from "../services/ProductoServices";
+import { get } from "http";
 
 export const ProductoController = {
     async getLastProduct(req: Request, res: Response) {
@@ -16,6 +17,16 @@ export const ProductoController = {
             let  name:string  = req.query.name as string;
             name ? name : '';
             const product = await ProductoService.getProductByName(name);
+            res.json(product);
+        } catch (error) {
+            res.status(500).json({ error: error });
+        }
+    },
+    async getProcutByTiendaId(req: Request, res: Response) {
+        try {
+            let tienda_id:number = parseInt(req.query.tienda_id as string);
+            tienda_id ? tienda_id : 0;
+            const product = await ProductoService.getProcutByTiendaId(tienda_id);
             res.json(product);
         } catch (error) {
             res.status(500).json({ error: error });

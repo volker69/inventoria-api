@@ -33,5 +33,25 @@ export const ProductoService = {
             console.error(error);
             return error;
         }
+    },
+
+    async getProcutByTiendaId(tienda_id: number):Promise<any> {
+        try {
+            const product = await postgres_db('inventario')
+                .join('producto_variante','inventario.producto_variante_id','producto_variante.producto_variante_id')
+                .join('producto','producto_variante.producto_id','producto.producto_id')
+                .select('producto.producto_id',
+                        'producto.nombre_producto',
+                        'producto.url_img')
+                .sum('inventario.stock as stock')
+                .groupBy('producto.producto_id','producto.nombre_producto','producto.url_img')
+                .limit(5)
+                .orderBy('producto.nombre_producto')
+                .where('inventario.tienda_id',tienda_id);
+            return product;
+        } catch (error) {
+            console.error(error);
+            return error;
+        }
     }
 }

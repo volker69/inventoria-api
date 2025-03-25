@@ -17,7 +17,7 @@ app.use("/api/welcome", (req, res) => {
 app.use("/api/tienda", TiendaRoute);
 app.use("/api/producto", ProductoRoute);
 
-const server = app.listen(PORT,HOSTLOCAL,() => {
+app.listen(PORT,HOSTLOCAL,() => {
       
       console.log(`Servidor corriendo en http://${HOSTLOCAL}:${PORT}`);
   });
