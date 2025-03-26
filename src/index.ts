@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import TiendaRoute from "./routes/TiendaRoute";
 import ProductoRoute from "./routes/ProductoRoute";
 import InformeRoute from "./routes/InformeRoute";
+import inventraRoute from "./routes/InventarioRoute";
 const app: Application = express();
 const PORT = 3000;
 const HOSTLOCAL = '0.0.0.0';
@@ -18,6 +19,7 @@ app.use("/api/welcome", (req, res) => {
 app.use("/api/tienda", TiendaRoute);
 app.use("/api/producto", ProductoRoute);
 app.use("/api/informe", InformeRoute);
+app.use("/api/inventario", inventraRoute);
 app.listen(PORT,HOSTLOCAL,() => {
       
       console.log(`Servidor corriendo en http://${HOSTLOCAL}:${PORT}`);
