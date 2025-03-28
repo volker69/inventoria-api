@@ -46,7 +46,8 @@ export const EcommerceService = {
                     nombre_producto: element.nombre_producto,
                     descripcion: element.descripcion,
                     pruductoi_id_jumpselller: element.product_id,
-                    url_img: element.url_img
+                    url_img: element.url_img,
+                    estado:true
                 }
 
                 const resulltProduct: any = await postgres_db<IProduct>('producto')
