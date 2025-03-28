@@ -15,6 +15,7 @@ export const ProductoService = {
                         'inventario.cdc_update',
                         'inventario.inventario_id')
                 .limit(3)
+                .where('producto.estado',true)
                 .orderBy('inventario.cdc_update', 'desc');
                 return product;
         } catch (error) {
@@ -27,7 +28,8 @@ export const ProductoService = {
         try {
             const product = await postgres_db('producto')
                 .select('*')
-                .whereILike('nombre_producto',`%${name}%`);
+                .whereILike('nombre_producto',`%${name}%`)
+                .andWhere('estado',true);
             return product;
         } catch (error) {
             console.error(error);
@@ -47,7 +49,8 @@ export const ProductoService = {
                 .groupBy('producto.producto_id','producto.nombre_producto','producto.url_img')
                 .limit(5)
                 .orderBy('producto.nombre_producto')
-                .where('inventario.tienda_id',tienda_id);
+                .where('inventario.tienda_id',tienda_id)
+                .andWhere('producto.estado',true);
             return product;
         } catch (error) {
             console.error(error);

@@ -14,7 +14,8 @@ export const InventarioService = {
                         'inventario.stock',
                         'inventario.inventario_id')
                 .where('producto.producto_id',producto_id)
-                .andWhere('inventario.tienda_id',1);
+                .andWhere('inventario.tienda_id',1)
+                .andWhere('producto.estado',true);
           return inventario;  
 
                 

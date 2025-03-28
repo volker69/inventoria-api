@@ -10,6 +10,7 @@ export const InformeService = {
                 .select('producto_atributo_variante.valor_atributo as talla')
                 .sum('inventario.stock as stock')
                 .where('inventario.tienda_id',1)
+                .andWhere('producto.estado',true)
                 .groupBy('producto_atributo_variante.valor_atributo')
 
                 return informe;
@@ -31,6 +32,7 @@ export const InformeService = {
                 'inventario.tienda_id',)
             .sum('inventario.stock as stock')
             .where('categoria.categoria_id', categoria_id)
+            .andWhere('producto.estado',true)
             .groupBy('producto_atributo_variante.valor_atributo', 'inventario.tienda_id');
 
             return informe
