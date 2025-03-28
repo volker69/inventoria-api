@@ -6,6 +6,7 @@ import { generateCode, startSpinner, stopSpinner } from '../helpers/utils';
 import { IProductVariant } from '../interface/Producto_Variant.Interface';
 import { IProductAtributeVariant } from '../interface/Producto_atributo_variante.interface';
 import { IInventario } from '../interface/Inventario.Interfaces';
+import { ICatProd } from '../interface/CategoriaProductos.Interface';
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ export const EcommerceService = {
         return response;
     },
 
-    async asyncProducByCategory(categoryID: number): Promise<any> {
+    async asyncProducByCategory(categoryID: number,myCategoryId:number): Promise<any> {
         try {
             const response = await axios.get(`${process.env.ECOMMERCE_URL}/products/category/${categoryID}.json?login=${process.env.LOGIN}&authtoken=${process.env.AUTHTOKEN}`);
             let data = response.data;
@@ -52,10 +53,21 @@ export const EcommerceService = {
                     .insert(dataPerson, 'producto_id');
 
                 console.log("=====| Producto sincronizado |===== ");
-                console.log("Iniciando sincronizacion de Variante de producto");
-
+                
                 columsIncert.push(resulltProduct[0].producto_id);
+                console.log("Asignando Categoria a producto");    
+                let dataProdCat:ICatProd= {
+                    producto_id:resulltProduct[0].producto_id,
+                    categoria_id: myCategoryId
 
+                }
+                
+                await postgres_db<ICatProd>('producto_categoria')
+                    .insert(dataProdCat)
+                
+                console.log("Fin de la Asignando Categoria a producto");    
+                
+                console.log("Iniciando sincronizacion de Variante de producto");
                 for (let index = 0; index < element.variants.length; index++) {
                     const variant = element.variants[index];
                     let nameSKU = generateCode(dataPerson.nombre_producto);

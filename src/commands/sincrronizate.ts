@@ -29,14 +29,14 @@ program
   });
 
   program
-  .command('sync:products <catgoryId>')
+  .command('sync:products <catgoryId> <myCategoryId>')
   .description('Sincroniza los productos de un e-commerce con la base de datos de inventario')
-  .action(async (catgoryId:number) => {
+  .action(async (catgoryId:number,myCategoryId:number ) => {
     try {
 
      
 
-      const res= await EcommerceService.asyncProducByCategory(catgoryId);
+      const res= await EcommerceService.asyncProducByCategory(catgoryId,myCategoryId);
       console.log(res);
     } catch (error) {
       console.log("Error en la coneccion: ", error);    
@@ -49,21 +49,8 @@ program
   .description('Prueba los metodod de todo el proyecto')
   .action(async () => {
     try {
-     /* Probas los metodos aqui */
-      let data:IPutInventario[] = [
-        {
-          inventario_id:267,
-          precio:22990,
-          stock:1
-        },
-        {
-          inventario_id:268,
-          precio:9990,
-          stock:4
-        }
-      ]
-      const res= await InventarioService.putInventarioByStockAbdPrice(data);
-      console.log(res);
+     /* TODOÑ */
+     console.log("NO HA METDOS ESTABLECIDO");
     } catch (error) {
       console.log("Error en la coneccion: ", error);    
     } 
