@@ -2,6 +2,8 @@ import { Command } from 'commander';
 
 import { EcommerceService } from '../services/ecommerceService';
 import { IProductResponseEc } from '../interface/productEcomenc.interface';
+import { InventarioService } from '../services/InventarioServicio';
+import { IPutInventario } from '../interface/PutInventario.interface';
 
 
 const program = new Command();
@@ -35,6 +37,32 @@ program
      
 
       const res= await EcommerceService.asyncProducByCategory(catgoryId);
+      console.log(res);
+    } catch (error) {
+      console.log("Error en la coneccion: ", error);    
+    } 
+  
+  });
+
+  program
+  .command('test:metod')
+  .description('Prueba los metodod de todo el proyecto')
+  .action(async () => {
+    try {
+     /* Probas los metodos aqui */
+      let data:IPutInventario[] = [
+        {
+          inventario_id:267,
+          precio:22990,
+          stock:1
+        },
+        {
+          inventario_id:268,
+          precio:9990,
+          stock:4
+        }
+      ]
+      const res= await InventarioService.putInventarioByStockAbdPrice(data);
       console.log(res);
     } catch (error) {
       console.log("Error en la coneccion: ", error);    
