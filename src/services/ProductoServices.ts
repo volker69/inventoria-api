@@ -1,4 +1,6 @@
 import postgres_db from '../db/postgressConexion';
+import { getCurrentDateTime } from '../helpers/utils';
+import { BitacoraService } from './BitacoraService';
 
 export const ProductoService = {
     async getLastProduct():Promise<any> {
@@ -52,6 +54,32 @@ export const ProductoService = {
                 .where('inventario.tienda_id',tienda_id)
                 .andWhere('producto.estado',true);
             return product;
+        } catch (error) {
+            console.error(error);
+            return error;
+        }
+    },
+
+    async setInactiveProduct(estado:boolean,producto_id:number):Promise<any>{
+        try {
+            const product = await postgres_db('producto')
+                .update({estado:estado})
+                .where('producto_id',producto_id);
+
+                BitacoraService.postBitacora(
+                    {
+                        usuario_id:1,
+                        accion:"update",
+                        tabla:"producto"
+
+                    },
+                    "actualizar",
+                    producto_id,
+                    {estado:estado}
+                );
+
+            return product
+
         } catch (error) {
             console.error(error);
             return error;

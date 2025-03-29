@@ -1,6 +1,7 @@
 import e from "express";
 import postgres_db from "../db/postgressConexion";
 import { IPutInventario } from "../interface/PutInventario.interface";
+import { BitacoraService } from "./BitacoraService";
 
 export const InventarioService = {
     async getInventarioByProductoId(producto_id: number):Promise<any> { 
@@ -43,6 +44,14 @@ export const InventarioService = {
                 const  putInventario = await postgres_db('inventario')
                 .update({stock:e.stock})
                 .where('inventario_id',e.inventario_id);
+                await BitacoraService.postBitacora(
+                    {
+                        accion:"update",
+                        tabla:"inventario",
+                        usuario_id:1
+                    },
+                    "actualizar",
+                    e.inventario_id,` Stock: ${e.inventario_id} `)
 
                 console.log(`Inventario actualizado: ${putInventario}`);
                 result.push(putInventario);
@@ -55,6 +64,14 @@ export const InventarioService = {
                 const producto_variante = await postgres_db('producto_variante')
                         .update({precio:e.precio})
                         .where('producto_variante_id',dataInventario[0].producto_variante_id);
+                await BitacoraService.postBitacora(
+                    {
+                        accion:"update",
+                        tabla:"producto_variante",
+                        usuario_id:1
+                    },
+                    "actualizar",
+                    dataInventario[0].producto_variante_id,` Precio: ${e.precio} `)
                 console.log(`Se ha actualizado producto_variante ${producto_variante}`);
                 result.push(producto_variante)
                     });

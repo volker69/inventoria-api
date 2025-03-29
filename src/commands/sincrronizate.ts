@@ -4,6 +4,8 @@ import { EcommerceService } from '../services/ecommerceService';
 import { IProductResponseEc } from '../interface/productEcomenc.interface';
 import { InventarioService } from '../services/InventarioServicio';
 import { IPutInventario } from '../interface/PutInventario.interface';
+import { BitacoraService } from '../services/BitacoraService';
+import { ProductoService } from '../services/ProductoServices';
 
 
 const program = new Command();
@@ -49,8 +51,8 @@ program
   .description('Prueba los metodod de todo el proyecto')
   .action(async () => {
     try {
-     /* TODOÑ */
-     console.log("NO HA METDOS ESTABLECIDO");
+     let res = await ProductoService.setInactiveProduct(false,280);
+     console.log(`METDO response ===?${res}`);
     } catch (error) {
       console.log("Error en la coneccion: ", error);    
     } 
