@@ -31,5 +31,16 @@ export const ProductoController = {
         } catch (error) {
             res.status(500).json({ error: error });
         }
+    },
+    async setInactiveProduct(req:Request,res:Response){
+        try {
+            let producto_id:number = parseInt(req.body.producto_id as string);
+            let estado:any = req.body.estado
+            estado ? estado:false;
+            const product = await ProductoService.setInactiveProduct(estado,producto_id);
+            res.status(201).json(product);
+        } catch (error) {
+            res.status(500).json({ error: error });
+        }
     }
 }
