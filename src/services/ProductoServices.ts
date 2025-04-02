@@ -27,6 +27,18 @@ export const ProductoService = {
         }
     },
 
+    async getProductById(producto_id:number):Promise<any>{
+        try {
+            const product = await postgres_db('producto')
+                .select("*")
+                .where("producto_id",producto_id);
+            return product
+        } catch (error) {
+            console.error(error);
+            return error
+        }
+    },
+
     async getProductByName(name: string):Promise<any> {
         try {
             const product = await postgres_db('producto')
