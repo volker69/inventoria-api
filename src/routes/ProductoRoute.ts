@@ -7,4 +7,5 @@ router.get("/last", ProductoController.getLastProduct);
 router.get("/", ProductoController.getProductByName);
 router.get("/tienda", ProductoController.getProcutByTiendaId);
 router.delete("/",ProductoController.setInactiveProduct);
+router.post("/",ProductoController.postProduct);
 export default router;

@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "ts-node-dev --respawn src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --detectOpenHandles"
   },
   "keywords": [],
   "author": "volker69 <seba_msdstudio@hotmail.com>",
@@ -17,7 +17,12 @@
     "@types/commander": "^2.12.5",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.10.10",
+    "@types/supertest": "^6.0.3",
+    "jest": "^29.7.0",
+    "supertest": "^7.1.0",
+    "ts-jest": "^29.3.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.7.3"
   },
@@ -27,7 +32,8 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "knex": "^3.1.0",
-    "pg": "^8.13.3"
+    "pg": "^8.13.3",
+    "uuid": "^11.1.0"
   },
   "repository": "git@github.com:volker69/inventoria-api.git"
 }

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { ProductoService } from "../services/ProductoServices";
 import { get } from "http";
+import { IProduct } from "../interface/Product.Interface";
 
 export const ProductoController = {
     async getLastProduct(req: Request, res: Response) {
@@ -39,6 +40,16 @@ export const ProductoController = {
             estado ? estado:false;
             const product = await ProductoService.setInactiveProduct(estado,producto_id);
             res.status(201).json(product);
+        } catch (error) {
+            res.status(500).json({ error: error });
+        }
+    },
+
+    async postProduct(req:Request,res:Response) {
+        try {
+            let data:IProduct = req.body.payload
+            const product = await ProductoService.postProduct(data);
+            res.status(201).json(product)
         } catch (error) {
             res.status(500).json({ error: error });
         }

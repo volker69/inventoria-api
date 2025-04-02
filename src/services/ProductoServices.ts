@@ -1,5 +1,6 @@
 import postgres_db from '../db/postgressConexion';
 import { getCurrentDateTime } from '../helpers/utils';
+import { IProduct } from '../interface/Product.Interface';
 import { BitacoraService } from './BitacoraService';
 
 export const ProductoService = {
@@ -75,11 +76,36 @@ export const ProductoService = {
                     },
                     "actualizar",
                     producto_id,
-                    {estado:estado}
+                    `[ estado:${estado} | producto_id: ${producto_id} ]`
                 );
 
             return product
 
+        } catch (error) {
+            console.error(error);
+            return error;
+        }
+    },
+
+    async postProduct(payload:IProduct):Promise<any>{
+        try {
+            const product = await postgres_db("producto")
+                .insert(payload,"producto_id");
+            
+            console.log("VALOR DE product",product);
+            BitacoraService.postBitacora(
+                {
+                    usuario_id:1,
+                    accion:"insert",
+                    tabla:"producto"
+
+                },
+                "Incerta",
+                product[0].producto_id,
+               `[ nombre_producto: ${payload.nombre_producto} | descripcion: ${payload.descripcion} | estado:${payload.estado} | producto_id: ${product[0].producto_id} | pruductoi_id_jumpselller: ${payload.pruductoi_id_jumpselller} | url_img: ${payload.url_img} ]`
+            );
+            
+            return product
         } catch (error) {
             console.error(error);
             return error;

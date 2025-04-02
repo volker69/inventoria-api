@@ -51,7 +51,7 @@ export const InventarioService = {
                         usuario_id:1
                     },
                     "actualizar",
-                    e.inventario_id,` Stock: ${e.inventario_id} `)
+                    e.inventario_id,`[ Stock: ${e.inventario_id} | inventario_id:${e.inventario_id} ]`)
 
                 console.log(`Inventario actualizado: ${putInventario}`);
                 result.push(putInventario);
@@ -71,7 +71,7 @@ export const InventarioService = {
                         usuario_id:1
                     },
                     "actualizar",
-                    dataInventario[0].producto_variante_id,` Precio: ${e.precio} `)
+                    dataInventario[0].producto_variante_id,`[ Precio: ${e.precio} | producto_variante_id:${dataInventario[0].producto_variante_id} ]`)
                 console.log(`Se ha actualizado producto_variante ${producto_variante}`);
                 result.push(producto_variante)
                     });
