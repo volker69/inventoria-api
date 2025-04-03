@@ -27,7 +27,6 @@ export const BitacoraService = {
                 usuario_id:data.usuario_id,
 
             }
-            console.dir(dataBitacora);
             //Inicio de BItacora
             await postgres_db<IBitocara>(TABLAS.BITACORA)
                 .insert(dataBitacora);

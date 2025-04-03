@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { ProductoService } from "../services/ProductoServices";
-import { get } from "http";
 import { IProduct } from "../interface/Product.Interface";
 
 export const ProductoController = {

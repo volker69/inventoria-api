@@ -31,8 +31,7 @@ describe("POST /api/producto", ()=>{
     // shoud respond with a json object containing the new task with an id
 
     test("Esto deberia responder ID ",async ()=>{
-        const response = await request(app).post('/api/producto/').send(newProduct);
-        console.log("response.body",response.body);
+        const response = await request(app).post('/api/producto/').send(newProduct);        
         expect(response.body[0].producto_id).toBeDefined();
     });
 

@@ -3,6 +3,7 @@ import TiendaRoute from "./routes/TiendaRoute";
 import ProductoRoute from "./routes/ProductoRoute";
 import InformeRoute from "./routes/InformeRoute";
 import inventraRoute from "./routes/InventarioRoute";
+import TallaRoute from "./routes/TallaRoute"
 const app: Application = express();
 
 //-----
@@ -17,5 +18,6 @@ app.use("/api/tienda", TiendaRoute);
 app.use("/api/producto", ProductoRoute);
 app.use("/api/informe", InformeRoute);
 app.use("/api/inventario", inventraRoute);
+app.use("/api/talla",TallaRoute);
 
 export default app;
