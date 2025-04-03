@@ -16,7 +16,7 @@ export const BitacoraService = {
  * @returns void - Esta función no devuelve un valor, solo ejecuta el proceso de auditoría.
  * @author Seba
  */
-    async postBitacora(data:IBitocara,accionName:string,idTargetTAble:number,dataAction:any):Promise<any>{
+    async postBitacora(data:IBitocara,accionName:string,idTargetTAble:any,dataAction:any):Promise<any>{
         try {
             let fechaActual:string = getCurrentDateTime();
             let dataBitacora:IBitocara={

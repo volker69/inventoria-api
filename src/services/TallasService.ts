@@ -8,6 +8,7 @@ import { ProductoService } from "./ProductoServices";
 import { miselanios, TABLAS } from "../enums/response.enum";
 import { IInventario } from "../interface/Inventario.Interfaces";
 import { BitacoraService } from "./BitacoraService";
+import e from "express";
 
 export const TallaServices={
 
@@ -21,7 +22,8 @@ export const TallaServices={
             let dataVariant: IProductVariant = {
                 sku: `${nameSKU}-${data.tallaName.toUpperCase()}`,
                 precio: data.tallaPrice,
-                producto_id: dataProduct[0].producto_id as number
+                producto_id: dataProduct[0].producto_id as number,
+                estado:true
             }
 
             const resultVariant: any = await postgres_db<IProductVariant>(TABLAS.PRODUCTO_VARIANTE)
@@ -44,7 +46,8 @@ export const TallaServices={
             let dataVariantAtribute: IProductAtributeVariant = {
                 producto_variante_id: producto_variante_id,
                 nombre_atributo: miselanios.TALLAS,
-                valor_atributo: data.tallaName.toUpperCase()
+                valor_atributo: data.tallaName.toUpperCase(),
+                estado:true
             }
 
 
@@ -99,6 +102,61 @@ export const TallaServices={
             }
             
         }catch(error){
+            console.error(error);
+            return error;
+        }
+    },
+
+    async setInactiveTallaProduct(producto_variante_id:number):Promise<any>{
+        try {
+            //capturamos la ID de producto_atributo_varienta
+            let pva:IProductAtributeVariant[] = await postgres_db(TABLAS.PRODUCTO_ATRIBUTO_VARIANTE)
+                .select(`producto_atributo_variante_id`)
+                .where('producto_variante_id',producto_variante_id);
+
+            let producto_atributo_variante_id = pva[0].producto_atributo_variante_id;
+
+            //Inactivamos ahora el producto_variante
+
+            await postgres_db<IProductVariant>(TABLAS.PRODUCTO_VARIANTE)
+                    .update({estado:false})
+                    .where('producto_variante_id',producto_variante_id);
+            
+            await BitacoraService.postBitacora(
+                {
+                    accion:"update",
+                    tabla:"PRODUCTO_VARIANTE",
+                    usuario_id:1,
+                },
+                " Actualiza ",
+                producto_variante_id,
+                `[ estado: false | producto_variante_id: ${producto_variante_id} ]`
+            )
+
+            //Ahora inactivamos producto_atributo_variante
+
+            await postgres_db<IProductAtributeVariant>(TABLAS.PRODUCTO_ATRIBUTO_VARIANTE)
+                .update({estado:false})
+                .where('producto_atributo_variante_id',producto_atributo_variante_id)
+            
+            await BitacoraService.postBitacora(
+                {
+                    accion:"update",
+                    tabla:"PRODUCTO_ATRIBUTO_VARIANTE",
+                    usuario_id:1,
+                },
+                " Actualiza ",
+                producto_atributo_variante_id,
+                `[ estado: false | producto_atributo_variante_id: ${producto_atributo_variante_id} ]`
+            );
+
+            return{
+                mensaje:"Se inactivaron los datos correctamente",
+                producto_variante_id,
+                producto_atributo_variante_id
+            }
+            
+        } catch (error) {
             console.error(error);
             return error;
         }

@@ -3,4 +3,5 @@ export interface IProductAtributeVariant {
     producto_variante_id: number;
     nombre_atributo: string;
     valor_atributo: string;
+    estado:boolean;
 }

@@ -3,4 +3,5 @@ export interface IProductVariant {
     producto_id: number;
     sku: string;
     precio: number;
+    estado:boolean;
 }

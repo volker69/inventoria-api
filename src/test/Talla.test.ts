@@ -37,4 +37,32 @@ describe("POST /api/talla", ()=>{
     });
 
   })
-})
+});
+
+describe("PUT /api/talla/:producto_variante_id", ()=>{
+    describe("Esto debe recibir la id de producto_variante para inactivar el producto_atributo_variante y el producto_variante", ()=>{
+    
+        const producto_variante_id = 326;
+         // should respond with a 200 code
+         test("Esto debe responder un codigo 200",async()=>{
+            const response =await request(app).put(`/api/talla/${producto_variante_id}`);
+            expect(response.statusCode).toBe(200)
+         })
+    
+    
+        test("Esto debira responder un objeto JSON como content-type",async ()=>{
+            const response = await request(app).put(`/api/talla/${producto_variante_id}`);
+            expect(response.header["content-type"]).toEqual(
+                expect.stringContaining("json")
+            )
+        })
+    
+        test("Esto deberia responder un mensaje de inactivacion correcta mas las ID de las tablas afectadas",async ()=>{
+            const response = await request(app).put(`/api/talla/${producto_variante_id}`);
+            expect(response.body.mensaje).toEqual("Se inactivaron los datos correctamente")
+            expect(response.body.producto_variante_id).toBeDefined();
+            expect(response.body.producto_atributo_variante_id).toBeDefined();
+        });
+    
+    })
+});
