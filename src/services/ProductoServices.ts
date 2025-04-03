@@ -1,4 +1,5 @@
 import postgres_db from '../db/postgressConexion';
+import { TABLAS } from '../enums/response.enum';
 import { getCurrentDateTime } from '../helpers/utils';
 import { IProduct } from '../interface/Product.Interface';
 import { BitacoraService } from './BitacoraService';
@@ -6,7 +7,7 @@ import { BitacoraService } from './BitacoraService';
 export const ProductoService = {
     async getLastProduct():Promise<any> {
         try {
-            const product = await postgres_db('producto')
+            const product = await postgres_db(TABLAS.PRODUCTO)
                 .join('producto_variante', 'producto.producto_id', 'producto_variante.producto_id')
                 .join('inventario', 'producto_variante.producto_variante_id', 'inventario.producto_variante_id')
                 .join('producto_atributo_variante', 'producto_variante.producto_variante_id', 'producto_atributo_variante.producto_variante_id')
@@ -29,7 +30,7 @@ export const ProductoService = {
 
     async getProductById(producto_id:number):Promise<any>{
         try {
-            const product = await postgres_db('producto')
+            const product = await postgres_db(TABLAS.PRODUCTO)
                 .select("*")
                 .where("producto_id",producto_id);
             return product
@@ -41,7 +42,7 @@ export const ProductoService = {
 
     async getProductByName(name: string):Promise<any> {
         try {
-            const product = await postgres_db('producto')
+            const product = await postgres_db(TABLAS.PRODUCTO)
                 .select('*')
                 .whereILike('nombre_producto',`%${name}%`)
                 .andWhere('estado',true);
@@ -54,7 +55,7 @@ export const ProductoService = {
 
     async getProcutByTiendaId(tienda_id: number):Promise<any> {
         try {
-            const product = await postgres_db('inventario')
+            const product = await postgres_db(TABLAS.INVENTARIO)
                 .join('producto_variante','inventario.producto_variante_id','producto_variante.producto_variante_id')
                 .join('producto','producto_variante.producto_id','producto.producto_id')
                 .select('producto.producto_id',
@@ -75,7 +76,7 @@ export const ProductoService = {
 
     async setInactiveProduct(estado:boolean,producto_id:number):Promise<any>{
         try {
-            const product = await postgres_db('producto')
+            const product = await postgres_db(TABLAS.PRODUCTO)
                 .update({estado:estado})
                 .where('producto_id',producto_id);
 
@@ -101,7 +102,7 @@ export const ProductoService = {
 
     async postProduct(payload:IProduct):Promise<any>{
         try {
-            const product = await postgres_db("producto")
+            const product = await postgres_db(TABLAS.PRODUCTO)
                 .insert(payload,"producto_id");
             
             console.log("VALOR DE product",product);

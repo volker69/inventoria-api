@@ -2,11 +2,12 @@ import e from "express";
 import postgres_db from "../db/postgressConexion";
 import { IPutInventario } from "../interface/PutInventario.interface";
 import { BitacoraService } from "./BitacoraService";
+import { TABLAS } from "../enums/response.enum";
 
 export const InventarioService = {
     async getInventarioByProductoId(producto_id: number):Promise<any> { 
         try {
-            const inventario = await postgres_db('inventario')
+            const inventario = await postgres_db(TABLAS.INVENTARIO)
                 .join('producto_variante','inventario.producto_variante_id','producto_variante.producto_variante_id')
                 .join('producto_atributo_variante','producto_variante.producto_variante_id','producto_atributo_variante.producto_variante_id')
                 .join('producto','producto_variante.producto_id','producto.producto_id')
@@ -27,7 +28,7 @@ export const InventarioService = {
     },
     async getInventarioById(inventario_id: number):Promise<any> {
         try {
-            const inventario = await postgres_db('inventario')
+            const inventario = await postgres_db(TABLAS.INVENTARIO)
                 .select('*')
                 .where('inventario_id',inventario_id);
                 return inventario;
@@ -41,7 +42,7 @@ export const InventarioService = {
             //Capturara info          
             let result:any[] = [];
             data.map(async (e)=>{
-                const  putInventario = await postgres_db('inventario')
+                const  putInventario = await postgres_db(TABLAS.INVENTARIO)
                 .update({stock:e.stock})
                 .where('inventario_id',e.inventario_id);
                 await BitacoraService.postBitacora(
@@ -56,12 +57,12 @@ export const InventarioService = {
                 console.log(`Inventario actualizado: ${putInventario}`);
                 result.push(putInventario);
 
-                let dataInventario = await postgres_db('inventario')
+                let dataInventario = await postgres_db(TABLAS.INVENTARIO)
                     .select('*')
                     .where('inventario_id',e.inventario_id);
                 result.push(dataInventario)
                 console.log(`Se ha actualizado inventario ${dataInventario}`);
-                const producto_variante = await postgres_db('producto_variante')
+                const producto_variante = await postgres_db(TABLAS.PRODUCTO_VARIANTE)
                         .update({precio:e.precio})
                         .where('producto_variante_id',dataInventario[0].producto_variante_id);
                 await BitacoraService.postBitacora(

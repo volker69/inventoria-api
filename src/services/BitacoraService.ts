@@ -2,6 +2,7 @@ import { table } from "console";
 import postgres_db from "../db/postgressConexion";
 import { getCurrentDateTime } from "../helpers/utils";
 import { IBitocara } from "../interface/Bitacora.Interface";
+import { TABLAS } from "../enums/response.enum";
 
 export const BitacoraService = {
 
@@ -28,7 +29,7 @@ export const BitacoraService = {
             }
             console.dir(dataBitacora);
             //Inicio de BItacora
-            await postgres_db<IBitocara>('bitacora')
+            await postgres_db<IBitocara>(TABLAS.BITACORA)
                 .insert(dataBitacora);
             return true
         

@@ -7,6 +7,7 @@ import { IProductVariant } from '../interface/Producto_Variant.Interface';
 import { IProductAtributeVariant } from '../interface/Producto_atributo_variante.interface';
 import { IInventario } from '../interface/Inventario.Interfaces';
 import { ICatProd } from '../interface/CategoriaProductos.Interface';
+import { TABLAS } from '../enums/response.enum';
 
 dotenv.config();
 
@@ -50,7 +51,7 @@ export const EcommerceService = {
                     estado:true
                 }
 
-                const resulltProduct: any = await postgres_db<IProduct>('producto')
+                const resulltProduct: any = await postgres_db<IProduct>(TABLAS.PRODUCTO)
                     .insert(dataPerson, 'producto_id');
 
                 console.log("=====| Producto sincronizado |===== ");
@@ -63,7 +64,7 @@ export const EcommerceService = {
 
                 }
                 
-                await postgres_db<ICatProd>('producto_categoria')
+                await postgres_db<ICatProd>(TABLAS.PRODUCTO_CATEGORIA)
                     .insert(dataProdCat)
                 
                 console.log("Fin de la Asignando Categoria a producto");    
@@ -79,7 +80,7 @@ export const EcommerceService = {
                         producto_id: resulltProduct[0].producto_id
                     }
 
-                    const resultVariant: any = await postgres_db<IProductVariant>('producto_variante')
+                    const resultVariant: any = await postgres_db<IProductVariant>(TABLAS.PRODUCTO_VARIANTE)
                         .insert(dataVariant, 'producto_variante_id');
 
                     console.log(`=====| Variante sincronizada [${index}/${element.variants.length}]|=====`);
@@ -93,7 +94,7 @@ export const EcommerceService = {
 
                     console.log("Iniciando sincronizacion de producto_atributo_variante_id");
 
-                    const resultVariantAtribute: any = await postgres_db<IProductAtributeVariant>('producto_atributo_variante')
+                    const resultVariantAtribute: any = await postgres_db<IProductAtributeVariant>(TABLAS.PRODUCTO_ATRIBUTO_VARIANTE)
                         .insert(dataVariantAtribute, 'producto_atributo_variante_id');
                     console.log("Variante sincronizada, ID de la variante ", resultVariantAtribute[0].producto_atributo_variante_id);
 
@@ -108,7 +109,7 @@ export const EcommerceService = {
                         cdc_update:element.cdc_update
 
                     }
-                    const resultInventario: any = await postgres_db('inventario')
+                    const resultInventario: any = await postgres_db(TABLAS.INVENTARIO)
                         .insert(dataInventario, 'inventario_id');
                     console.log("=======:{{Inventario sincronizado, ID de la variante }}========", resultInventario[0].inventario_id);
 

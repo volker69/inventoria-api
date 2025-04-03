@@ -1,9 +1,10 @@
 import postgres_db from "../db/postgressConexion";
+import { TABLAS } from "../enums/response.enum";
 
 export const InformeService = {
     async getInformeTallas():Promise<any> {
         try {
-            const informe = await postgres_db('inventario')
+            const informe = await postgres_db(TABLAS.INVENTARIO)
                 .join('producto_variante','inventario.producto_variante_id','producto_variante.producto_variante_id')
                 .join('producto_atributo_variante','producto_variante.producto_variante_id','producto_atributo_variante.producto_variante_id')
                 .join('producto','producto_variante.producto_id','producto.producto_id')
@@ -22,7 +23,7 @@ export const InformeService = {
 
     async getInformeTallaBYCategoriaID(categoria_id:number):Promise<any>{
         try {
-            const informe = await postgres_db('categoria')
+            const informe = await postgres_db(TABLAS.CATEGORIA)
             .join('producto_categoria', 'categoria.categoria_id', 'producto_categoria.categoria_id')
             .join('producto', 'producto_categoria.producto_id', 'producto.producto_id')
             .join('producto_variante', 'producto.producto_id', 'producto_variante.producto_id')

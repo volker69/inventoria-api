@@ -5,7 +5,7 @@ import { IProductAtributeVariant } from "../interface/Producto_atributo_variante
 import { IProductVariant } from "../interface/Producto_Variant.Interface";
 import { ITallaProduct } from "../interface/TallaProduct.Interface";
 import { ProductoService } from "./ProductoServices";
-import { miselanios } from "../enums/response.enum";
+import { miselanios, TABLAS } from "../enums/response.enum";
 import { IInventario } from "../interface/Inventario.Interfaces";
 import { BitacoraService } from "./BitacoraService";
 
@@ -24,7 +24,7 @@ export const TallaServices={
                 producto_id: dataProduct[0].producto_id as number
             }
 
-            const resultVariant: any = await postgres_db<IProductVariant>('producto_variante')
+            const resultVariant: any = await postgres_db<IProductVariant>(TABLAS.PRODUCTO_VARIANTE)
                 .insert(dataVariant, 'producto_variante_id');
 
              BitacoraService.postBitacora(
@@ -49,7 +49,7 @@ export const TallaServices={
 
 
 
-            const resultVariantAtribute: any = await postgres_db<IProductAtributeVariant>('producto_atributo_variante')
+            const resultVariantAtribute: any = await postgres_db<IProductAtributeVariant>(TABLAS.PRODUCTO_ATRIBUTO_VARIANTE)
                 .insert(dataVariantAtribute, 'producto_atributo_variante_id');
 
             let producto_atributo_variante_id = resultVariantAtribute[0].producto_atributo_variante_id
@@ -75,7 +75,7 @@ export const TallaServices={
                 cdc_update:getCurrentDateTime()
 
             }
-            const resultInventario: any = await postgres_db('inventario')
+            const resultInventario: any = await postgres_db(TABLAS.INVENTARIO )
                 .insert(dataInventario, 'inventario_id');
             
          let inventario_id = resultInventario[0].inventario_id;
