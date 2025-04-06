@@ -77,7 +77,8 @@ export const EcommerceService = {
                     let dataVariant: IProductVariant = {
                         sku: `${nameSKU}-${variant.options[0].value}`,
                         precio: variant.price,
-                        producto_id: resulltProduct[0].producto_id
+                        producto_id: resulltProduct[0].producto_id,
+                        estado: true,
                     }
 
                     const resultVariant: any = await postgres_db<IProductVariant>(TABLAS.PRODUCTO_VARIANTE)
@@ -89,7 +90,8 @@ export const EcommerceService = {
                     let dataVariantAtribute: IProductAtributeVariant = {
                         producto_variante_id: producto_variante_id,
                         nombre_atributo: variant.options[0].name,
-                        valor_atributo: variant.options[0].value
+                        valor_atributo: variant.options[0].value,
+                        estado: true,
                     }
 
                     console.log("Iniciando sincronizacion de producto_atributo_variante_id");
