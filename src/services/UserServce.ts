@@ -1,6 +1,6 @@
 import { Knex } from "knex";
 import { TABLAS } from "../enums/response.enum";
-import { IUser } from "../interface/User.Interface";
+import { IUser } from "../interface/models/User.Interface";
 import bcrypt from "bcrypt";
 import { getCurrentDateTime } from "../helpers/utils";
 

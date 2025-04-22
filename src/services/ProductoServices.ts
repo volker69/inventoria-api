@@ -1,7 +1,7 @@
 import postgres_db from '../db/postgressConexion';
 import { TABLAS } from '../enums/response.enum';
 import { getCurrentDateTime } from '../helpers/utils';
-import { IProduct } from '../interface/Product.Interface';
+import { IProduct } from '../interface/models/Product.Interface';
 import { BitacoraService } from './BitacoraService';
 
 export const ProductoService = {

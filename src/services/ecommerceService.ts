@@ -1,11 +1,11 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
 import postgres_db from '../db/postgressConexion';
-import { IProduct } from '../interface/Product.Interface';
+import { IProduct } from '../interface/models/Product.Interface';
 import { generateCode, startSpinner, stopSpinner } from '../helpers/utils';
-import { IProductVariant } from '../interface/Producto_Variant.Interface';
-import { IProductAtributeVariant } from '../interface/Producto_atributo_variante.interface';
-import { IInventario } from '../interface/Inventario.Interfaces';
+import { IProductVariant } from '../interface/models/Producto_Variant.Interface';
+import { IProductAtributeVariant } from '../interface/models/Producto_atributo_variante.interface';
+import { IInventario } from '../interface/models/Inventario.Interfaces';
 import { ICatProd } from '../interface/CategoriaProductos.Interface';
 import { TABLAS } from '../enums/response.enum';
 

@@ -1,7 +1,7 @@
 import { table } from "console";
 import postgres_db from "../db/postgressConexion";
 import { getCurrentDateTime } from "../helpers/utils";
-import { IBitocara } from "../interface/Bitacora.Interface";
+import { IBitocara } from "../interface/models/Bitacora.Interface";
 import { TABLAS } from "../enums/response.enum";
 
 export const BitacoraService = {

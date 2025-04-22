@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { TiendaControll } from "../controllers/TiendaControll";
-import { authHandler } from "../middleware/auth.handler";
+import passport from "passport";
 
 
 const router = Router();
 
-router.get("/",authHandler,TiendaControll.obtenerTiendas);
+router.get("/",passport.authenticate('jwt', {session: false}),TiendaControll.obtenerTiendas);
 
 export default router;

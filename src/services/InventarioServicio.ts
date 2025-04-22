@@ -1,6 +1,6 @@
 import e from "express";
 import postgres_db from "../db/postgressConexion";
-import { IPutInventario } from "../interface/PutInventario.interface";
+import { IPutInventario } from "../interface/resquest&response/PutInventario.interface";
 import { BitacoraService } from "./BitacoraService";
 import { TABLAS } from "../enums/response.enum";
 

@@ -1,12 +1,12 @@
 import postgres_db from "../db/postgressConexion";
 import { generateCode, getCurrentDateTime } from "../helpers/utils";
-import { IProduct } from "../interface/Product.Interface";
-import { IProductAtributeVariant } from "../interface/Producto_atributo_variante.interface";
-import { IProductVariant } from "../interface/Producto_Variant.Interface";
-import { ITallaProduct } from "../interface/TallaProduct.Interface";
+import { IProduct } from "../interface/models/Product.Interface";
+import { IProductAtributeVariant } from "../interface/models/Producto_atributo_variante.interface";
+import { IProductVariant } from "../interface/models/Producto_Variant.Interface";
+import { ITallaProduct } from "../interface/resquest&response/TallaProduct.Interface";
 import { ProductoService } from "./ProductoServices";
 import { miselanios, TABLAS } from "../enums/response.enum";
-import { IInventario } from "../interface/Inventario.Interfaces";
+import { IInventario } from "../interface/models/Inventario.Interfaces";
 import { BitacoraService } from "./BitacoraService";
 import e from "express";
 

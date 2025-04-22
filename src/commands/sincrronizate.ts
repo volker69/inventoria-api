@@ -3,7 +3,7 @@ import { Command } from 'commander';
 import { EcommerceService } from '../services/ecommerceService';
 import { IProductResponseEc } from '../interface/productEcomenc.interface';
 import { InventarioService } from '../services/InventarioServicio';
-import { IPutInventario } from '../interface/PutInventario.interface';
+import { IPutInventario } from '../interface/resquest&response/PutInventario.interface';
 import { BitacoraService } from '../services/BitacoraService';
 import { ProductoService } from '../services/ProductoServices';
 

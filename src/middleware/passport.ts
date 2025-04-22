@@ -3,7 +3,7 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { UsuarioService } from "../services/UserServce";
 import postgres_db from "../db/postgressConexion";
-import { IUser } from "../interface/User.Interface";
+import { IUser } from "../interface/models/User.Interface";
 
 const userServe = new UsuarioService(postgres_db);
 

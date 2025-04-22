@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ProductoService } from "../services/ProductoServices";
-import { IProduct } from "../interface/Product.Interface";
+import { IProduct } from "../interface/models/Product.Interface";
 import { descripToken } from "../helpers/utils";
 
 export const ProductoController = {
