@@ -27,14 +27,26 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
+    "@hapi/boom": "^10.0.1",
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/passport": "^1.0.17",
+    "@types/passport-jwt": "^4.0.1",
+    "@types/passport-local": "^1.0.38",
     "axios": "^1.8.2",
+    "bcrypt": "^5.1.1",
     "commander": "^13.1.0",
     "cross-spawn": "^7.0.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
     "pg": "^8.13.3",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "zod": "^3.24.3"
   },
   "repository": "git@github.com:volker69/inventoria-api.git"
 }

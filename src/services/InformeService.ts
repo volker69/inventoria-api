@@ -2,7 +2,7 @@ import postgres_db from "../db/postgressConexion";
 import { TABLAS } from "../enums/response.enum";
 
 export const InformeService = {
-    async getInformeTallas():Promise<any> {
+    async getInformeTallas(empresa_id:number,tienda_id:number):Promise<any> {
         try {
             const informe = await postgres_db(TABLAS.INVENTARIO)
                 .join('producto_variante','inventario.producto_variante_id','producto_variante.producto_variante_id')
@@ -10,8 +10,9 @@ export const InformeService = {
                 .join('producto','producto_variante.producto_id','producto.producto_id')
                 .select('producto_atributo_variante.valor_atributo as talla')
                 .sum('inventario.stock as stock')
-                .where('inventario.tienda_id',1)
+                .where('inventario.tienda_id',tienda_id)
                 .andWhere('producto.estado',true)
+                .andWhere("producto.empresa_id",empresa_id)
                 .groupBy('producto_atributo_variante.valor_atributo')
 
                 return informe;
@@ -21,7 +22,7 @@ export const InformeService = {
         }
     },
 
-    async getInformeTallaBYCategoriaID(categoria_id:number):Promise<any>{
+    async getInformeTallaBYCategoriaID(categoria_id:number,empresa_id:number):Promise<any>{
         try {
             const informe = await postgres_db(TABLAS.CATEGORIA)
             .join('producto_categoria', 'categoria.categoria_id', 'producto_categoria.categoria_id')
@@ -34,6 +35,7 @@ export const InformeService = {
             .sum('inventario.stock as stock')
             .where('categoria.categoria_id', categoria_id)
             .andWhere('producto.estado',true)
+            .andWhere('empresa_id',empresa_id)
             .groupBy('producto_atributo_variante.valor_atributo', 'inventario.tienda_id');
 
             return informe

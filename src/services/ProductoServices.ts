@@ -102,6 +102,7 @@ export const ProductoService = {
 
     async postProduct(payload:IProduct):Promise<any>{
         try {
+            
             const product = await postgres_db(TABLAS.PRODUCTO)
                 .insert(payload,"producto_id");
             
@@ -115,7 +116,7 @@ export const ProductoService = {
                 },
                 "Incerta",
                 product[0].producto_id,
-               `[ nombre_producto: ${payload.nombre_producto} | descripcion: ${payload.descripcion} | estado:${payload.estado} | producto_id: ${product[0].producto_id} | pruductoi_id_jumpselller: ${payload.pruductoi_id_jumpselller} | url_img: ${payload.url_img} ]`
+               `[ nombre_producto: ${payload.nombre_producto} | descripcion: ${payload.descripcion} | estado:${payload.estado} | producto_id: ${product[0].producto_id} | pruductoi_id_jumpselller: ${payload.producto_id_ecommerce} | url_img: ${payload.url_img} ]`
             );
             
             return product

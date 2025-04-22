@@ -1,3 +1,7 @@
+import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';import { CONFIG } from "../config/config";
+;
+
 export const  obtenerFechaActual= ()=> {
     const fecha = new Date();
     const anio = fecha.getFullYear();
@@ -82,3 +86,15 @@ export const  getCurrentDateTime = (): string =>{
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds} ${timezone}`;
 }
 
+async function verifyPassword(myPassword:string,hash:string):Promise<boolean> {
+  const isMatch = await bcrypt.compare(myPassword, hash);
+  return isMatch;
+  
+  }
+
+export function descripToken(req:any):any {
+  const token:string =req.headers.authorization?.split(" ")[1] as string
+  const decript:any = jwt.verify(token,`${CONFIG.ACCES_TOKEN}`);
+  return decript;
+  
+}

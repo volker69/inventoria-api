@@ -1,6 +1,6 @@
-import { IProductResponseEc } from "../interface/productEcomenc.interface";
 
-export type responseProductoType = IProductResponseEc | undefined | string | number;
+
+export type responseProductoType = any | undefined | string | number;
 
 export enum miselanios {
     TALLAS = "tallas"

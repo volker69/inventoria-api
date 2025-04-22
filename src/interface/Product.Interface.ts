@@ -3,6 +3,7 @@ export interface IProduct{
     nombre_producto: string;
     descripcion: string; 
     url_img: string;
-    pruductoi_id_jumpselller?: number;
+    producto_id_ecommerce?: number;
     estado:boolean;
+    empresa_id:number;
 }
