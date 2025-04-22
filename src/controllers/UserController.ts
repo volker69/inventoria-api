@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import postgres_db from '../db/postgressConexion';
 import { UsuarioService } from '../services/UserServce';
 import exp from 'constants';
+import { descripToken } from '../helpers/utils';
 
 const userService = new UsuarioService(postgres_db);
 
@@ -21,7 +22,8 @@ export const getUserController = async (req: Request, res: Response) => {
 export const createUserController = async (req: Request, res: Response) => {
     try {
         const data = req.body.payload;
-        const user = await userService.createUser(data);
+        const userInfo = descripToken(req);
+        const user = await userService.createUser(data,userInfo.sub);
         if (typeof user === 'string') {
             res.status(404).json({ message: user });
         }

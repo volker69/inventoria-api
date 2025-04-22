@@ -3,6 +3,7 @@ import { TABLAS } from "../enums/response.enum";
 import { IUser } from "../interface/models/User.Interface";
 import bcrypt from "bcrypt";
 import { getCurrentDateTime } from "../helpers/utils";
+import { BitacoraService } from "./BitacoraService";
 
 export class UsuarioService{
     constructor(private db: Knex) {}
@@ -51,7 +52,7 @@ export class UsuarioService{
         }
     }
 
-    async createUser(user:IUser):Promise<any>{
+    async createUser(user:IUser,userAdmin:number):Promise<any>{
         try {
             const { nombre_usuario, email, clave_hash, rol_id, activo,empresa_id } = user;
 
@@ -72,8 +73,17 @@ export class UsuarioService{
                 return { message: "No se pudo crear el usuario" };
             }
 
+            BitacoraService.postBitacora({
+                accion:"insert",
+                tabla:"usuario",
+                usuario_id:userAdmin
+            },
+            "incertar",
+            postUser[0].usuario_id,
+            ` [ nombre_usuario: ${postUser[0].nombre_usuario} | email: ${postUser[0].email} | clave_hash: ${postUser[0].clave_hash} | activo: ${postUser[0].activo} | rol_id:${postUser[0].rol_id} ]`
+            );
 
-            
+            return postUser[0];           
 
         } catch (error) {
             console.error(error);

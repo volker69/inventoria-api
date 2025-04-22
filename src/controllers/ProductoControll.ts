@@ -6,7 +6,8 @@ import { descripToken } from "../helpers/utils";
 export const ProductoController = {
     async getLastProduct(req: Request, res: Response) {
         try {
-            const product = await ProductoService.getLastProduct();
+            const userInfo = descripToken(req);
+            const product = await ProductoService.getLastProduct(userInfo.empresa_id);
             res.json(product);
         } catch (error) {
             res.status(500).json({ error: error });
@@ -17,7 +18,8 @@ export const ProductoController = {
         try {
             let  name:string  = req.query.name as string;
             name ? name : '';
-            const product = await ProductoService.getProductByName(name);
+            const userInfo = descripToken(req);
+            const product = await ProductoService.getProductByName(name,userInfo.empresa_id);
             res.json(product);
         } catch (error) {
             res.status(500).json({ error: error });
@@ -27,7 +29,8 @@ export const ProductoController = {
         try {
             let tienda_id:number = parseInt(req.query.tienda_id as string);
             tienda_id ? tienda_id : 0;
-            const product = await ProductoService.getProcutByTiendaId(tienda_id);
+            const userInfo = descripToken(req);
+            const product = await ProductoService.getProcutByTiendaId(tienda_id,userInfo.empresa_id);
             res.json(product);
         } catch (error) {
             res.status(500).json({ error: error });
@@ -38,7 +41,8 @@ export const ProductoController = {
             let producto_id:number = parseInt(req.body.producto_id as string);
             let estado:any = req.body.estado
             estado ? estado:false;
-            const product = await ProductoService.setInactiveProduct(estado,producto_id);
+            let userInfo = descripToken(req);
+            const product = await ProductoService.setInactiveProduct(estado,producto_id,userInfo.sub);
             res.status(201).json(product);
         } catch (error) {
             res.status(500).json({ error: error });

@@ -8,14 +8,20 @@ import { ProductoService } from "./ProductoServices";
 import { miselanios, TABLAS } from "../enums/response.enum";
 import { IInventario } from "../interface/models/Inventario.Interfaces";
 import { BitacoraService } from "./BitacoraService";
-import e from "express";
 
 export const TallaServices={
 
-    async postTallaProduct(data:ITallaProduct,product_id:number,tienda_id:number):Promise<any>{
+    async postTallaProduct(data:ITallaProduct,product_id:number,tienda_id:number,usuario_id:number,empresa_id:number):Promise<any>{
         try {
-            const dataProduct:IProduct[] = await ProductoService.getProductById(product_id);
 
+            const dataProduct:IProduct[] = await ProductoService.getProductById(product_id,empresa_id);
+            if(dataProduct.length === 0){
+                return {
+                    mensaje:"No existe el producto",
+                    product_id
+                }
+            }
+            
             
             let nameSKU = generateCode(dataProduct[0].nombre_producto);
 
@@ -33,7 +39,7 @@ export const TallaServices={
                 {
                     tabla:"producto_variante",
                     accion:"insert",
-                    usuario_id:1
+                    usuario_id:usuario_id
                 },
                 "incertar",
                 resultVariant[0].producto_variante_id,
@@ -60,7 +66,7 @@ export const TallaServices={
                 {
                     tabla:"producto_atributo_variant",
                     accion:"insert",
-                    usuario_id:1
+                    usuario_id:usuario_id
                 },
                 "incertar",
                 producto_atributo_variante_id,
@@ -86,7 +92,7 @@ export const TallaServices={
             {
                 tabla:"inventario",
                 accion:"insert",
-                usuario_id:1
+                usuario_id:usuario_id
             }
             ,
                 "incertar",
@@ -107,7 +113,7 @@ export const TallaServices={
         }
     },
 
-    async setInactiveTallaProduct(producto_variante_id:number):Promise<any>{
+    async setInactiveTallaProduct(producto_variante_id:number,usuario_id:number):Promise<any>{
         try {
             //capturamos la ID de producto_atributo_varienta
             let pva:IProductAtributeVariant[] = await postgres_db(TABLAS.PRODUCTO_ATRIBUTO_VARIANTE)
@@ -126,7 +132,7 @@ export const TallaServices={
                 {
                     accion:"update",
                     tabla:"PRODUCTO_VARIANTE",
-                    usuario_id:1,
+                    usuario_id:usuario_id,
                 },
                 " Actualiza ",
                 producto_variante_id,
@@ -143,7 +149,7 @@ export const TallaServices={
                 {
                     accion:"update",
                     tabla:"PRODUCTO_ATRIBUTO_VARIANTE",
-                    usuario_id:1,
+                    usuario_id:usuario_id,
                 },
                 " Actualiza ",
                 producto_atributo_variante_id,

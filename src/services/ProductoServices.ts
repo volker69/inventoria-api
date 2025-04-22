@@ -1,11 +1,13 @@
+import { number } from 'zod';
 import postgres_db from '../db/postgressConexion';
 import { TABLAS } from '../enums/response.enum';
 import { getCurrentDateTime } from '../helpers/utils';
 import { IProduct } from '../interface/models/Product.Interface';
 import { BitacoraService } from './BitacoraService';
+import e from 'express';
 
 export const ProductoService = {
-    async getLastProduct():Promise<any> {
+    async getLastProduct(empresa_id:number):Promise<any> {
         try {
             const product = await postgres_db(TABLAS.PRODUCTO)
                 .join('producto_variante', 'producto.producto_id', 'producto_variante.producto_id')
@@ -20,6 +22,7 @@ export const ProductoService = {
                         'inventario.inventario_id')
                 .limit(3)
                 .where('producto.estado',true)
+                .andWhere('producto.empresa_id',empresa_id)
                 .orderBy('inventario.cdc_update', 'desc');
                 return product;
         } catch (error) {
@@ -28,11 +31,13 @@ export const ProductoService = {
         }
     },
 
-    async getProductById(producto_id:number):Promise<any>{
+    async getProductById(producto_id:number,empresa_id:number):Promise<any>{
         try {
             const product = await postgres_db(TABLAS.PRODUCTO)
                 .select("*")
-                .where("producto_id",producto_id);
+                .where("producto_id",producto_id)
+                .andWhere("estado",true)
+                .andWhere("empresa_id",empresa_id);
             return product
         } catch (error) {
             console.error(error);
@@ -40,12 +45,13 @@ export const ProductoService = {
         }
     },
 
-    async getProductByName(name: string):Promise<any> {
+    async getProductByName(name: string,empresa_id:number):Promise<any> {
         try {
             const product = await postgres_db(TABLAS.PRODUCTO)
                 .select('*')
                 .whereILike('nombre_producto',`%${name}%`)
-                .andWhere('estado',true);
+                .andWhere('estado',true)
+                .andWhere('empresa_id',empresa_id);
             return product;
         } catch (error) {
             console.error(error);
@@ -53,7 +59,7 @@ export const ProductoService = {
         }
     },
 
-    async getProcutByTiendaId(tienda_id: number):Promise<any> {
+    async getProcutByTiendaId(tienda_id: number,empresa_id:number):Promise<any> {
         try {
             const product = await postgres_db(TABLAS.INVENTARIO)
                 .join('producto_variante','inventario.producto_variante_id','producto_variante.producto_variante_id')
@@ -66,7 +72,8 @@ export const ProductoService = {
                 .limit(5)
                 .orderBy('producto.nombre_producto')
                 .where('inventario.tienda_id',tienda_id)
-                .andWhere('producto.estado',true);
+                .andWhere('producto.estado',true)
+                .andWhere('producto.empresa_id',empresa_id);
             return product;
         } catch (error) {
             console.error(error);
@@ -74,7 +81,7 @@ export const ProductoService = {
         }
     },
 
-    async setInactiveProduct(estado:boolean,producto_id:number):Promise<any>{
+    async setInactiveProduct(estado:boolean,producto_id:number,usuario_id:number):Promise<any>{
         try {
             const product = await postgres_db(TABLAS.PRODUCTO)
                 .update({estado:estado})
@@ -82,7 +89,7 @@ export const ProductoService = {
 
                 BitacoraService.postBitacora(
                     {
-                        usuario_id:1,
+                        usuario_id:usuario_id,
                         accion:"update",
                         tabla:"producto"
 

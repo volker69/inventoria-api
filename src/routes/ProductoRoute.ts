@@ -4,10 +4,14 @@ import passport from "passport";
 
 const router = Router();
 
-router.get("/last", ProductoController.getLastProduct);
-router.get("/", ProductoController.getProductByName);
-router.get("/tienda", ProductoController.getProcutByTiendaId);
-router.delete("/",ProductoController.setInactiveProduct);
+router.get("/last",passport.authenticate('jwt', {session: false})
+, ProductoController.getLastProduct);
+router.get("/",passport.authenticate('jwt', {session: false})
+, ProductoController.getProductByName);
+router.get("/tienda",passport.authenticate('jwt', {session: false})
+, ProductoController.getProcutByTiendaId);
+router.delete("/",passport.authenticate('jwt', {session: false})
+,ProductoController.setInactiveProduct);
 router.post("/",passport.authenticate('jwt', {session: false})
     ,ProductoController.postProduct);
 export default router;
