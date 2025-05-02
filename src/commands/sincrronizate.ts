@@ -1,10 +1,6 @@
 import { Command } from 'commander';
 
 import { EcommerceService } from '../services/ecommerceService';
-import { IProductResponseEc } from '../interface/productEcomenc.interface';
-import { InventarioService } from '../services/InventarioServicio';
-import { IPutInventario } from '../interface/resquest&response/PutInventario.interface';
-import { BitacoraService } from '../services/BitacoraService';
 import { ProductoService } from '../services/ProductoServices';
 
 
@@ -46,7 +42,7 @@ program
   
   });
 
-  program
+/*   program
   .command('test:metod')
   .description('Prueba los metodod de todo el proyecto')
   .action(async () => {
@@ -57,7 +53,7 @@ program
       console.log("Error en la coneccion: ", error);    
     } 
   
-  });
+  }); */
 
 
 
