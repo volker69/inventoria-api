@@ -6,7 +6,6 @@ import { generateCode, startSpinner, stopSpinner } from '../helpers/utils';
 import { IProductVariant } from '../interface/models/Producto_Variant.Interface';
 import { IProductAtributeVariant } from '../interface/models/Producto_atributo_variante.interface';
 import { IInventario } from '../interface/models/Inventario.Interfaces';
-import { ICatProd } from '../interface/CategoriaProductos.Interface';
 import { TABLAS } from '../enums/response.enum';
 
 dotenv.config();
@@ -46,9 +45,10 @@ export const EcommerceService = {
                 let dataPerson: IProduct = {
                     nombre_producto: element.nombre_producto,
                     descripcion: element.descripcion,
-                    pruductoi_id_jumpselller: element.product_id,
+                    producto_id_ecommerce: element.product_id,
                     url_img: element.url_img,
-                    estado:true
+                    estado:true,
+                    empresa_id: 1,
                 }
 
                 const resulltProduct: any = await postgres_db<IProduct>(TABLAS.PRODUCTO)
@@ -58,13 +58,13 @@ export const EcommerceService = {
                 
                 columsIncert.push(resulltProduct[0].producto_id);
                 console.log("Asignando Categoria a producto");    
-                let dataProdCat:ICatProd= {
+                let dataProdCat= {
                     producto_id:resulltProduct[0].producto_id,
                     categoria_id: myCategoryId
 
                 }
                 
-                await postgres_db<ICatProd>(TABLAS.PRODUCTO_CATEGORIA)
+                await postgres_db(TABLAS.PRODUCTO_CATEGORIA)
                     .insert(dataProdCat)
                 
                 console.log("Fin de la Asignando Categoria a producto");    
