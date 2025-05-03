@@ -2,19 +2,19 @@ FROM node:20.12.2
 
 WORKDIR /app
 
-# Copiar package.json y lock primero
+# Copiar archivos
 COPY package*.json ./
 COPY tsconfig.json ./
 
-# Instalar las herramientas necesarias para compilar bcrypt
+# Instalar TODAS las dependencias
 RUN apt-get update && \
     apt-get install -y python3 build-essential && \
-    npm install --only=production
+    npm install
 
 # Copiar el resto del código
 COPY . .
 
-# Compilar la app
+# Compilar
 RUN npm run build
 
 # Exponer puerto
