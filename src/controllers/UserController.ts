@@ -33,3 +33,17 @@ export const createUserController = async (req: Request, res: Response) => {
         console.error("Error en createUserController", error);
     }
 }
+
+export const registerUserController = async (req: Request, res: Response) => {
+    try {
+        const data = req.body.payload;
+        const user = await userService.RegisterUser(data);
+        if (typeof user === 'string') {
+            res.status(404).json({ message: user });
+        }
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(500).json({ message: "Error al crear el usuario" });
+        console.error("Error en createUserController", error);
+    }
+}

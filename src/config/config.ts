@@ -12,4 +12,5 @@ export const CONFIG = {
     },
     ACCES_TOKEN:process.env.SECRET_JWT_SMALL,
     REFRSH_TOKEN:process.env.SECRET_JWT_LONG,
+    API_KEY:process.env.SECRET_API_KEY
 }

@@ -1,9 +1,10 @@
+import { CONFIG } from "../config/config";
 
 
-export const authHandler = (req: any, res: any, next: any) => {
+export const checkAPiKei = (req: any, res: any, next: any) => {
     const token = req.headers['authorization'];
 
-    if (token==="ASDQWE123456") {
+    if (token===CONFIG.API_KEY) {
         return next();
     }
         res.status(401).json({ message: 'Unauthorized' });    

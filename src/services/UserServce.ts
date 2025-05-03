@@ -91,4 +91,40 @@ export class UsuarioService{
         }
     }
 
+    async RegisterUser(user:IUser):Promise<any>{
+        try {
+            const { nombre_usuario, email, clave_hash } = user;
+
+            const data: IUser = {
+                nombre_usuario: nombre_usuario,
+                email: email,
+                clave_hash:bcrypt.hashSync(clave_hash, 10),
+                activo: true,
+                fecha_creacion: getCurrentDateTime()
+            };
+
+            const postUser = await this.db(TABLAS.USUARIO)
+                .insert(data)
+                .returning('*');
+            if(postUser.length === 0){
+                return { message: "No se pudo crear el usuario" };
+            }
+
+            BitacoraService.postBitacora({
+                accion:"insert",
+                tabla:"usuario",
+                usuario_id:0
+            },
+            "incertar",
+            postUser[0].usuario_id,
+            ` [ nombre_usuario: ${postUser[0].nombre_usuario} | email: ${postUser[0].email} | clave_hash: ${postUser[0].clave_hash} | activo: ${postUser[0].activo} | rol_id:${postUser[0].rol_id} ]`
+            );
+
+            return postUser[0];           
+
+        } catch (error) {
+            console.error(error);
+            throw new Error("Error al crear el usuario");
+        }
+    }
 }

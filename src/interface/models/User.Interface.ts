@@ -7,5 +7,5 @@ export interface IUser {
     rol_id?: number;
     activo: boolean;
     fecha_creacion: string;
-    empresa_id:number;
+    empresa_id?:number;
 }
