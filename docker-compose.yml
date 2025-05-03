@@ -1,21 +1,28 @@
 services:
   database_inventoria:
     image: database_inventoria
-    build: 
+    build:
       context: ./databases/
-    ports: 
+    ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - ./databases/data:/var/lib/postgresql/data
+    networks:
+      - inventoria_net
   backend_inventoria:
     image: backend_inventoria
-    build: 
+    build:
       context: ./
-    ports: 
-      - "8080:8080"
+    ports:
+      - "8080:3000"
     depends_on:
       - database_inventoria
+    networks:
+      - inventoria_net
+networks:
+  inventoria_net:
+    driver: bridge
