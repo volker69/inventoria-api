@@ -112,8 +112,7 @@ export class UsuarioService{
 
             BitacoraService.postBitacora({
                 accion:"insert",
-                tabla:"usuario",
-                usuario_id:0
+                tabla:"usuario"
             },
             "incertar",
             postUser[0].usuario_id,

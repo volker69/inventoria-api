@@ -3,7 +3,7 @@ export interface IBitocara {
     tabla:string,
     accion:string,
     fecha?:string,
-    usuario_id:number,
+    usuario_id?:number,
     glosa?:string
 
 }
