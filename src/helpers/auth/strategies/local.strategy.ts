@@ -1,6 +1,4 @@
-import passport, { use } from "passport";
-
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { Strategy } from "passport-local";
 import { UsuarioService } from "../../../services/UserServce";
 import postgres_db from "../../../db/postgressConexion";

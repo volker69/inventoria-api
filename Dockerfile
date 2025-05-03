@@ -1,29 +1,24 @@
-# Etapa 1: construcción
-FROM node:20 AS builder
+FROM node:20.12.2
+
 WORKDIR /app
 
-# Copiamos los archivos de configuración
+# Copiar package.json y lock primero
 COPY package*.json ./
 COPY tsconfig.json ./
-RUN npm install
 
-# Copiamos el código fuente y compilamos
+# Instalar las herramientas necesarias para compilar bcrypt
+RUN apt-get update && \
+    apt-get install -y python3 build-essential && \
+    npm install --only=production
+
+# Copiar el resto del código
 COPY . .
+
+# Compilar la app
 RUN npm run build
 
-# Etapa 2: imagen liviana para producción
-FROM gcr.io/distroless/nodejs20-debian12
-WORKDIR /app
-
-# Copiamos solo lo necesario desde la etapa de construcción
-COPY package*.json ./
-COPY --from=builder /app/dist ./dist
-
-# Instalamos solo las dependencias de producción
-RUN npm install --only=production
-
-# Exponemos el puerto usado por la app
+# Exponer puerto
 EXPOSE 3000
 
-# Comando para iniciar el servidor
+# Arrancar app
 CMD ["node", "dist/index.js"]

@@ -1,7 +1,7 @@
 import { Knex } from "knex";
 import { TABLAS } from "../enums/response.enum";
 import { IUser } from "../interface/models/User.Interface";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { getCurrentDateTime } from "../helpers/utils";
 import { BitacoraService } from "./BitacoraService";
 
